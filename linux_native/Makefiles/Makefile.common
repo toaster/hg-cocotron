@@ -21,12 +21,8 @@ endif
 CFLAGS = -I $(INCLUDE_DIR)
 CFLAGS += -fobjc-exceptions -fconstant-string-class=NSConstantString -fgnu-runtime -fPIC
 CFLAGS += -g -O2 -Wall -Werror -std=gnu99
-# TODO pragma mark? Braucht Cocotron das?
-CFLAGS += -Wno-unknown-pragmas -Wno-strict-aliasing -Wno-sequence-point
-# TODO: OBJC_EXPORT == objc_EXPORT ??? (siehe gcc 4.6.2-Quellen)
+CFLAGS += -Wno-unknown-pragmas
 CFLAGS += -DOBJC_EXPORT=
-# TODO Hier ist noch was am Cocotron kaputt (macht aber nix, weil wir keine structs returnen)
-#      → siehe Cocotron/…/NSInvocation.m:429
 CFLAGS += -DLINUX -D_GNU_SOURCE -D__LITTLE_ENDIAN__ -DGCC_RUNTIME_3
 
 LDFLAGS += -Wl,--no-undefined -fPIC
