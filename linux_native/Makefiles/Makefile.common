@@ -23,7 +23,7 @@ CFLAGS += -fobjc-exceptions -fconstant-string-class=NSConstantString -fgnu-runti
 CFLAGS += -g -O2 -Wall -Werror -std=gnu99
 CFLAGS += -Wno-unknown-pragmas
 CFLAGS += -DOBJC_EXPORT=
-CFLAGS += -DLINUX -D_GNU_SOURCE -D__LITTLE_ENDIAN__ -DGCC_RUNTIME_3
+CFLAGS += -DLINUX -D_GNU_SOURCE -D__LITTLE_ENDIAN__ -DGCC_RUNTIME_3 -D_FORTIFY_SOURCE=1
 
 LDFLAGS += -Wl,--no-undefined -fPIC
 LDFLAGS += -lc -lgcc_s -lm -ldl -lpthread
