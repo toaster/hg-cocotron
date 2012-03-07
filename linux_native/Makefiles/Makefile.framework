@@ -15,7 +15,7 @@ RESOURCES := $(TARGET_DIR)/Resources
 $(TARGET): $(O_FILES) $(ASM_O_FILES)
 	@echo "$(GREEN)[LD]$(NORMAL)" $@
 	@mkdir -p $(@D)
-	@$(GCC) $(LDFLAGS) -rdynamic -shared -o $@ $^ $(STATIC_LIBS)
+	@$(GCC) -rdynamic -shared -o $@ $^ $(STATIC_LIBS) $(LDFLAGS)
 
 $(TARGET_WRAPPER): $(TARGET)
 	@$(call link,$(notdir $<),$@)
