@@ -30,6 +30,12 @@ LDFLAGS += -lc -lgcc_s -lm -ldl -lpthread
 
 
 GCC = $(GCC_DIR)/bin/gcc
+ifdef USE_CLANG
+OCC = /usr/bin/clang
+CFLAGS += -I $(GCC_LIB_DIR)/gcc/$(shell $(GCC) -dumpmachine)/$(shell $(GCC) -dumpversion)/include
+else
+OCC = $(GCC)
+endif
 
 
 ESC := `echo -en '\033'`
@@ -63,18 +69,18 @@ all: _all
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.m $(BUILD_DIR)/%.dep
 	@echo "$(BLUE)[CC]$(NORMAL)" $@
 	@mkdir -p $(dir $@)
-	@#$(GCC) -E $(CFLAGS) -o $@.ccc $<
-	@$(GCC) -c $(CFLAGS) -o $@ $<
+	@#$(OCC) -E $(CFLAGS) -o $@.ccc $<
+	@$(OCC) -c $(CFLAGS) -o $@ $<
 
 $(BUILD_DIR)/%.s.o: $(SRC_DIR)/%.s
 	@echo "$(BLUE)[AS]$(NORMAL)" $@
 	@mkdir -p $(dir $@)
-	@$(GCC) -c $(CFLAGS) -o $@ $<
+	@$(OCC) -c $(CFLAGS) -o $@ $<
 
 $(BUILD_DIR)/%.dep: $(SRC_DIR)/%.m
 	@echo "$(RED)[MM]$($NORMAL)$(NORMAL)" $@
 	@mkdir -p $(dir $@)
-	@$(GCC) -MM -MF $@ -MT $(patsubst %.dep,%.o,$@) $(CFLAGS) $<
+	@$(OCC) -MM -o $@ -MT $(patsubst %.dep,%.o,$@) $(CFLAGS) $<
 
 
 

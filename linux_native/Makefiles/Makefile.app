@@ -18,7 +18,7 @@ LD_PATH = $(subst $(SPACE),:,$(strip $(foreach framework,$(FRAMEWORKS),\
 $(TARGET): $(O_FILES)
 	@echo "$(GREEN)[LD]$(NORMAL)" $@
 	@mkdir -p $(dir $@)
-	@$(GCC) -o $@ $< $(LDFLAGS)
+	@$(OCC) -o $@ $< $(LDFLAGS)
 
 $(TARGET_WRAPPER): $(TARGET)
 	@echo "$(YELLOW)[GN]$(NORMAL)" $@
