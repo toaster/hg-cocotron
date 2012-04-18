@@ -86,4 +86,6 @@ clean:
 _all: $(TARGET_DIR)
 
 
+ifneq (clean,$(MAKECMDGOALS))
 -include $(DEP_FILES)
+endif
