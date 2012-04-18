@@ -8,46 +8,44 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #import <Foundation/NSNumber_BOOL.h>
 #import <Foundation/NSStringFormatter.h>
 
-#if __APPLE__
-#import <Foundation/NSNumber_BOOL_const.h>
-#else
-#import <Foundation/NSNumber_BOOL_const_impl.h>
-#endif
 
 @implementation NSNumber_BOOL
 
-NSNumber *NSNumber_BOOLNew(NSZone *zone,BOOL value) {
-   return value?kNSNumberTrue:kNSNumberFalse;
+
+NSNumber *kNSNumberTrue;
+NSNumber *kNSNumberFalse;
+const CFBooleanRef kCFBooleanTrue = (CFBooleanRef)&kNSNumberTrue;
+const CFBooleanRef kCFBooleanFalse = (CFBooleanRef)&kNSNumberFalse;
+
+
++ (void)initialize
+{
+    kNSNumberTrue = [[self allocWithZone: NULL] initWithBool: YES];
+    kNSNumberFalse = [[self allocWithZone: NULL] initWithBool: NO];
 }
 
-+ (id) allocWithZone:(NSZone *)zone {
-   [NSException raise:NSInternalInconsistencyException format:@"Private class NSNumber_BOOL is not intended to be alloced."];
-   return nil;
+
++ numberWithBool: (BOOL)value
+{
+    return value ? kNSNumberTrue : kNSNumberFalse;
 }
 
-// Being constant singletons (doubletons?), boolean numbers can't be released.
--(void)dealloc {
-   return;
-   [super dealloc];  // Silence compiler warning
+
+- init
+{
+    [super init];
+    _type = kCFNumberCharType;
+    return self;
 }
 
--(id)retain {
-   return self;
+
+- initWithBool:(BOOL)value
+{
+    [self init];
+    _value = value;
+    return self;
 }
 
--(void)release {}
-
--(id)autorelease {
-   return self;
-}
-
--(NSUInteger)retainCount {
-   /* "For objects that never get released (that is, their release method
-      does nothing), this method should return UINT_MAX, as defined in
-      <limits.h>." -- NSObject Protocol Reference
-   */
-   return UINT_MAX;
-}
 
 -(void)getValue:(void *)value {
    *((BOOL *)value)=_value;
