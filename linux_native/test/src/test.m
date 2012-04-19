@@ -106,6 +106,25 @@
 
 @end
 
+#ifdef __clang__
+@interface Blocker:NSObject
+
++ (NSString *)doSomethingWith: (NSString *(^)(NSString *))block;
+
+@end
+
+@implementation Blocker
+
+
++ (NSString *)doSomethingWith: (NSString *(^)(NSString *))block
+{
+    return [NSString stringWithFormat: @"The block output: %@", block(@"the block argument")];
+}
+
+
+@end
+#endif
+
 
 int main(int argc, char **argv)
 {
@@ -133,6 +152,16 @@ int main(int argc, char **argv)
     [i getReturnValue: &r];
     //NSLog(@"invocation returned %d", r);
     printf("invocation returned %lld\n", r);
+
+#ifdef __clang__
+    NSLog(@"Lucky you! Now I will try something with blocks …");
+    NSLog(@"The call with block output: %@", [Blocker doSomethingWith: ^(NSString *arg){
+        return [NSString stringWithFormat: @"The block got: %@", arg];
+    }]);
+#else
+    NSLog(@"You did not compile with clang … be assured that you are missing something.");
+#endif
+
     [pool release];
     return 0;
 }

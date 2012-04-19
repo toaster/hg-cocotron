@@ -33,6 +33,13 @@ GCC = $(GCC_DIR)/bin/gcc
 ifdef USE_CLANG
 OCC = /usr/bin/clang
 CFLAGS += -I $(GCC_LIB_DIR)/gcc/$(shell $(GCC) -dumpmachine)/$(shell $(GCC) -dumpversion)/include
+# make sure your clang works with '#include <unistd.h>' and blocks
+# see http://sources.redhat.com/bugzilla/show_bug.cgi?id=11157
+CFLAGS += -fblocks
+# make sure you have the BlocksRuntime
+# (http://stackoverflow.com/questions/2297765/which-libraries-do-you-need-to-link-against-for-a-clang-program-using-blocks)
+# If your clang does not need it, comment it out.
+LDFLAGS += -lBlocksRuntime
 else
 OCC = $(GCC)
 endif
