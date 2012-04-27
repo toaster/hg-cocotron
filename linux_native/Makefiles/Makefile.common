@@ -82,7 +82,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.m $(BUILD_DIR)/%.dep
 $(BUILD_DIR)/%.s.o: $(SRC_DIR)/%.s
 	@echo "$(BLUE)[AS]$(NORMAL)" $@
 	@mkdir -p $(dir $@)
-	@$(OCC) -c $(CFLAGS) -o $@ $<
+	@$(OCC) -c -o $@ $<
 
 $(BUILD_DIR)/%.dep: $(SRC_DIR)/%.m
 	@echo "$(RED)[MM]$($NORMAL)$(NORMAL)" $@
